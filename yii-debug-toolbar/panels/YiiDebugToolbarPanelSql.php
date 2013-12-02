@@ -208,10 +208,16 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
                 YiiDebug::t('Server Version') => $connection->getServerVersion()
             );
             
-            $lines = explode('  ', $serverInfo);
-            foreach($lines as $line) {
-                list($key, $value) = explode(': ', $line, 2);
-                $info[YiiDebug::t($key)] = $value;
+            if (is_array($serverInfo)) {
+            	foreach($serverInfo as $key => $value) {
+            		$info[YiiDebug::t($key)] = $value;
+            	}	
+            } else {
+            	$lines = explode('  ', $serverInfo);
+            	foreach($lines as $line) {
+            		list($key, $value) = explode(': ', $line, 2);
+            		$info[YiiDebug::t($key)] = $value;
+            	}
             }
             
             if(!empty($info[YiiDebug::t('Uptime')])) {
